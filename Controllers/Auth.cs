@@ -24,12 +24,15 @@ public class Auth : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost(Name = "LoginUser")]
-    public async Task<ActionResult<string>> Login(string Username, string Password)
-    {
-        var user = await _authRepository.Login(Username, Password);
 
-        if (user == null)
+    [HttpPost(Name = "LoginUser")]
+    //public async Task<ActionResult> Add(User user)
+
+    public async Task<ActionResult> Login(User user)
+    {
+        var loginUser = await _authRepository.Login(user.Username, user.Password);
+
+        if (loginUser == null)
         {
             return Unauthorized("Invalid username or password.");
         }

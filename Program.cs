@@ -12,19 +12,24 @@ namespace LU2WebApi
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            //builder.Services.
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             string connectionString = builder.Configuration["SqlConnectionString"];
 
-            if(string.IsNullOrEmpty(connectionString))
-                throw new Exception("Connection string is null or empty");
+            //if(string.IsNullOrEmpty(connectionString))
+            //    throw new Exception("Connection string is null or empty");
+            var sqlConnectionStringFound = !string.IsNullOrWhiteSpace(connectionString);
 
             builder.Services.AddTransient<IUserRepository, UserRepository>(o => new UserRepository(connectionString));
             builder.Services.AddTransient<AuthRepository, AuthRepository>(o => new AuthRepository(connectionString));
 
 
             var app = builder.Build();
+            app.MapGet("/", () => $"The API is up . Connection string found: {(sqlConnectionStringFound ? "Yes" : "NO")}");
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
