@@ -19,8 +19,6 @@ namespace LU2WebApi
 
             string connectionString = builder.Configuration["SqlConnectionString"];
 
-            //if(string.IsNullOrEmpty(connectionString))
-            //    throw new Exception("Connection string is null or empty");
             var sqlConnectionStringFound = !string.IsNullOrWhiteSpace(connectionString);
 
             builder.Services.AddTransient<IUserRepository, UserRepository>(o => new UserRepository(connectionString));
