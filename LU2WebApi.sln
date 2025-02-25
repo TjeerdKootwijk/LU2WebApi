@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LU2WebApi", "LU2WebApi.csproj", "{5FF2EE64-6ABA-49A4-9D73-0CE253F471B2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unitTestProject", "..\unitTestProject\unitTestProject.csproj", "{E593AC55-704D-47EC-82E2-CD67268F4D8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LU2WebApi", "LU2WebApi.csproj", "{5FF2EE64-6ABA-49A4-9D73-0CE253F471B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{5FF2EE64-6ABA-49A4-9D73-0CE253F471B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FF2EE64-6ABA-49A4-9D73-0CE253F471B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FF2EE64-6ABA-49A4-9D73-0CE253F471B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E593AC55-704D-47EC-82E2-CD67268F4D8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E593AC55-704D-47EC-82E2-CD67268F4D8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E593AC55-704D-47EC-82E2-CD67268F4D8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E593AC55-704D-47EC-82E2-CD67268F4D8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
