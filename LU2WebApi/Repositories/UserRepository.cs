@@ -45,11 +45,11 @@ namespace LU2WebApi.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<User> GetUser(string username)
+        public async Task<User> GetUser(int id)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                var FoundUser = await sqlConnection.QuerySingleOrDefaultAsync<User>("SELECT * FROM [Users] WHERE UserName = @UserName", new { username });
+                var FoundUser = await sqlConnection.QuerySingleOrDefaultAsync<User>("select * from auth.AspNetUsers WHERE id = @id", new { id });
                 return FoundUser;
             }
         }

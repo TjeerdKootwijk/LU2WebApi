@@ -25,31 +25,31 @@ public class Auth : ControllerBase
     }
 
 
-    [HttpPost(Name = "LoginUser")]
-    //public async Task<ActionResult> Add(User user)
+    //[HttpPost(Name = "LoginUser")]
+    ////public async Task<ActionResult> Add(User user)
 
-    public async Task<ActionResult> Login(User user)
-    {
-        var loginUser = await _authRepository.Login(user.Username, user.Password);
+    //public async Task<ActionResult> Login(User user)
+    //{
+    //    var loginUser = await _authRepository.Login(user.Username, user.Password);
 
-        if (loginUser == null)
-        {
-            return Unauthorized("Invalid username or password.");
-        }
+    //    if (loginUser == null)
+    //    {
+    //        return Unauthorized("Invalid username or password.");
+    //    }
 
-        // Generate JWT Token
-        //string token = GenerateJwtToken(user);
-        String token = RandomString(15);
+    //    // Generate JWT Token
+    //    //string token = GenerateJwtToken(user);
+    //    String token = RandomString(15);
 
-        return Ok(new { Token = token });
-    }
+    //    return Ok(new { Token = token });
+    //}
 
-    public static string RandomString(int length)
-    {
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        return new string(Enumerable.Repeat(chars, length)
-            .Select(s => s[random.Next(s.Length)]).ToArray());
-    }
+    //public static string RandomString(int length)
+    //{
+    //    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    //    return new string(Enumerable.Repeat(chars, length)
+    //        .Select(s => s[random.Next(s.Length)]).ToArray());
+    //}
 
 }
 
