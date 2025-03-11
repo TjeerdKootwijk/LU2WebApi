@@ -7,8 +7,8 @@ namespace LU2WebApi.Repositories.Object
     {
         public Task<IEnumerable<Object2D>> GetObject2DOfEnvironment(Guid environmentId);
         public Task<Object2D> GetObject2D(Guid id);
-        public Task<Guid> CreateObject2D(Object2DDTO object2D, Guid EnvironmentId);
-        public Task UpdateObject2D(Object2DDTO object2D);
+        public Task<Object2D> CreateObject2D(Object2DDTO object2D, Guid EnvironmentId);
+        public Task UpdateObject2D(Object2D object2D);
         public Task DeleteObject2D(Guid id);
     }
 }

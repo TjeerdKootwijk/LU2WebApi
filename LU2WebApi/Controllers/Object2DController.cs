@@ -53,13 +53,15 @@ namespace LU2WebApi.Controllers
             {
                 return BadRequest("Not logged in");
             }
-            var createdEnvironment = await _object2DRepository.CreateObject2D(object2D, environmentId);
+            var createdObject = await _object2DRepository.CreateObject2D(object2D, environmentId);
 
-            return Created();
+            return CreatedAtRoute("CreateObject2D", createdObject);
         }
 
-        [HttpPut("UpdateObject2D")]
-        public async Task<ActionResult> Update(Guid objectId, Object2DDTO newObject2D)
+        //[HttpPut("UpdateObject2D")]
+        [HttpPut("UpdateObject2D/{objectId}", Name = "UpdateObject2D")]
+
+        public async Task<ActionResult> Update(Guid objectId, Object2D newObject2D)
         {
             var userId = _authenticationService.GetCurrentAuthenticatedUserId();
             if (userId == null)

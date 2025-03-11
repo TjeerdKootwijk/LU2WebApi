@@ -76,6 +76,13 @@ namespace LU2WebApi.Controllers
             {
                 return BadRequest("You have reached the max worlds");
             }
+            foreach(Environment2D environment2D in userEnvironments)
+            {
+                if(environment.Name == environment2D.Name)
+                {
+                    return BadRequest("Cannot create a world with a elready existing world name");
+                }
+            }
 
             var createdEnvironment = await _environment2DRepository.CreateEnvironment2D(environment, userId);
 
@@ -123,7 +130,7 @@ namespace LU2WebApi.Controllers
             //delete objects first
 
 
-            var existingEnvironment2D = await _environment2DRepository.GetEnvironment2D(EnvironmentId);
+            var existingEnvironment2D = await _environment2DRepository.GetEnvironment2DOfUser(EnvironmentId);
 
             if (existingEnvironment2D == null)
                 return NotFound();

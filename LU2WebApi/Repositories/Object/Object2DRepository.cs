@@ -18,13 +18,16 @@ namespace LU2WebApi.Repositories
             this.sqlConnectionString = sqlConnectionString;
         }
 
-        public async Task<Guid> CreateObject2D(Object2DDTO object2D, Guid EnvironmentId)
+        public async Task<Object2D> CreateObject2D(Object2DDTO object2D, Guid EnvironmentId)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
                 await sqlConnection.OpenAsync();
 
-                string query = @"INSERT INTO Environment2D (Id, Name, ScaleX, ScaleY, PositionX, PositionY, SortingLayer, RotationZ) VALUES (@Id, @Name, @MaxHeight, @MaxWidth, @UserUsername,); SELECT @Id;";  // Return the GUID we inserted.
+                string query = @"
+            INSERT INTO Object2D (Id, Name, ScaleX, ScaleY, PositionX, PositionY, SortingLayer, RotationZ, PrefabId, Environment2DId) 
+            VALUES (@Id, @Name, @ScaleX, @ScaleY, @PositionX, @PositionY, @SortingLayer, @RotationZ, @PrefabId, @EnvironmentId);
+            SELECT @Id;";  // Return the GUID we inserted.
 
                 Guid newId = Guid.NewGuid();
                 var parameters = new
@@ -33,18 +36,34 @@ namespace LU2WebApi.Repositories
                     object2D.Name,
                     object2D.ScaleX,
                     object2D.ScaleY,
-                    object2D.RotationZ,
-                    object2D.SortingLayer,
                     object2D.PositionX,
                     object2D.PositionY,
-
+                    object2D.SortingLayer,
+                    object2D.RotationZ,
+                    object2D.PrefabId,
                     EnvironmentId
                 };
-                // Execute the query and fetch the GUID that was inserted
-                Guid lastInsertedId = await sqlConnection.ExecuteScalarAsync<Guid>(query, parameters);
-                return lastInsertedId;
+
+                // Execute the query and get the inserted object's ID
+                await sqlConnection.ExecuteScalarAsync<Guid>(query, parameters);
+
+                // Return the newly created Object2D instance
+                return new Object2D
+                {
+                    Id = newId,
+                    Name = object2D.Name,
+                    ScaleX = object2D.ScaleX,
+                    ScaleY = object2D.ScaleY,
+                    PositionX = object2D.PositionX,
+                    PositionY = object2D.PositionY,
+                    SortingLayer = object2D.SortingLayer,
+                    RotationZ = object2D.RotationZ,
+                    PrefabId = object2D.PrefabId,
+                    Environment2DId = EnvironmentId
+                };
             }
         }
+
 
         public async Task DeleteObject2D(Guid id)
         {
@@ -59,7 +78,7 @@ namespace LU2WebApi.Repositories
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                string query = "SELECT Id, Name, PositionX, PositionY, ScaleY, PositionX, RotationZ, SortingLayer FROM [Object2D] WHERE Environment2DId = @environmentId";
+                string query = "SELECT Id, Name, PositionX, PositionY, ScaleY, PositionX, RotationZ, SortingLayer, PrefabId FROM [Object2D] WHERE Environment2DId = @environmentId";
 
                 // Use QueryAsync to return a collection of Object2D
                 return await sqlConnection.QueryAsync<Object2D>(query, new { environmentId });
@@ -77,11 +96,36 @@ namespace LU2WebApi.Repositories
             }
         }
 
-        public async Task UpdateObject2D(Object2DDTO object2D)
+        public async Task UpdateObject2D(Object2D object2D)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                await sqlConnection.ExecuteAsync("UPDATE [Object2D] SET Name = @Name, MaxHeight = @MaxHeight, MaxWidth = @MaxWidth", object2D);
+                string query = @"
+                UPDATE Object2D 
+                SET 
+                    Name = @Name, 
+                    ScaleX = @ScaleX, 
+                    ScaleY = @ScaleY, 
+                    PositionX = @PositionX, 
+                    PositionY = @PositionY, 
+                    SortingLayer = @SortingLayer, 
+                    RotationZ = @RotationZ, 
+                    PrefabId = @PrefabId
+                WHERE Id = @Id;";
+
+                var parameters = new
+                {
+                    Id = object2D.Id,
+                    Name = object2D.Name,
+                    ScaleX = object2D.ScaleX,
+                    ScaleY = object2D.ScaleY,
+                    PositionX = object2D.PositionX,
+                    PositionY = object2D.PositionY,
+                    SortingLayer = object2D.SortingLayer,
+                    RotationZ = object2D.RotationZ,
+                    PrefabId = object2D.PrefabId,
+                };
+                await sqlConnection.ExecuteAsync(query, parameters);
             }
         }
     }

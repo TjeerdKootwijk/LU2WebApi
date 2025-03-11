@@ -9,5 +9,6 @@
         public float ScaleY { get; set; }
         public float RotationZ { get; set; }
         public int SortingLayer { get; set; }
+        public string PrefabId { get; set; }
     }
 }
