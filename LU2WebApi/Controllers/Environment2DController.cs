@@ -3,6 +3,7 @@ using LU2WebApi.Repositories.Environment;
 using LU2WebApi.Repositories.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -84,9 +85,13 @@ namespace LU2WebApi.Controllers
                 }
             }
 
-            var createdEnvironment = await _environment2DRepository.CreateEnvironment2D(environment, userId);
+            Guid createdEnvironmentId = await _environment2DRepository.CreateEnvironment2D(environment, userId);
+            if (createdEnvironmentId == null)
+            {
+                return BadRequest("Environment not created");
+            }
 
-            return Created();
+            return CreatedAtAction(nameof(Create), createdEnvironmentId);
         }
 
         [HttpPut("UpdateEnvironment2D")]
