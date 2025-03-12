@@ -93,7 +93,7 @@ namespace LU2WebApi.Controllers
 
             return CreatedAtAction(nameof(Create), createdEnvironmentId);
         }
-
+         
         [HttpPut("UpdateEnvironment2D")]
         public async Task<ActionResult> Update(Guid environmentId, Environment2DDTO newEnvironment2D)
         {
